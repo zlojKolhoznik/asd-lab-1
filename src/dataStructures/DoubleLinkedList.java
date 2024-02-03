@@ -50,16 +50,12 @@ public class DoubleLinkedList {
             append(value);
         } else {
             Node newNode = new Node(value);
-            Node current = head;
+            Node next = getNode(index);
 
-            for (int i = 0; i < index; i++) {
-                current = current.next;
-            }
-
-            newNode.next = current;
-            newNode.previous = current.previous;
-            current.previous.next = newNode;
-            current.previous = newNode;
+            newNode.next = next;
+            newNode.previous = next.previous;
+            next.previous.next = newNode;
+            next.previous = newNode;
             size++;
         }
     }
@@ -97,14 +93,10 @@ public class DoubleLinkedList {
         } else if (index >= size - 1) {
             removeLast();
         } else {
-            Node current = head;
+            Node toRemove = getNode(index);
 
-            for (int i = 0; i < index; i++) {
-                current = current.next;
-            }
-
-            current.previous.next = current.next;
-            current.next.previous = current.previous;
+            toRemove.previous.next = toRemove.next;
+            toRemove.next.previous = toRemove.previous;
             size--;
         }
     }
@@ -116,17 +108,33 @@ public class DoubleLinkedList {
 
     // Returns the element at the specified index.
     public int get(int index) {
+        return getNode(index).value;
+    }
+
+    // Returns node at the specified index or throws IndexOutOfBoundsException if index is out of bounds.
+    // This method is used to avoid code duplication.
+    private Node getNode(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
-        Node current = head;
+        Node current;
 
-        for (int i = 0; i < index; i++) {
-            current = current.next;
+        // If index is closer to the beginning of the list, start from the head. Otherwise, start from the tail.
+        if (index < size / 2) {
+            current = head;
+
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;
+
+            for (int i = size - 1; i > index; i--) {
+                current = current.previous;
+            }
         }
-
-        return current.value;
+        return current;
     }
 }
 
