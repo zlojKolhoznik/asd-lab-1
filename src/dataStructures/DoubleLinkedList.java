@@ -138,6 +138,7 @@ public class DoubleLinkedList {
     }
 }
 
+// Node is a class that represents an element of the linked data structure.
 class Node {
     int value;      // Value of the element.
     Node next;      // Link to the next element.
