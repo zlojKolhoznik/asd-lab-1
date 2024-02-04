@@ -27,7 +27,7 @@ public class Main {
         // Adding elements to the list according to the task.
         while(!stack.isEmpty()) {
             int element = Integer.parseInt(stack.pop());
-            if (element % 2 == 0) {
+            if (element % 2 != 0) {
                 list.append(element);
             } else {
                 list.prepend(element);
